@@ -1,20 +1,23 @@
 %{
+/* include standard libraries for input/output, memory allocation, and string manipulation */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+/* function prototypes */
 int yylex();
 int yywrap(void) { return 1; }
 void yyerror(const char *s);
 
-int result;                  // final result
-int step_count;              // step numbering for evaluation
-int depth;                   // indentation for nested expressions
+/* Global variables */
+int result; // final result
+int step_count; // step numbering for evaluation
+int depth; // indentation for nested expressions
 #define MAX_HISTORY 5
-int history[MAX_HISTORY];    // last 5 results
-int history_index = 0;
+int history[MAX_HISTORY]; // last 5 results
+int history_index = 0; // index for history tracking
 
-// Print step with indentation and color
+/* Function to print evaluation steps with indentation and color */
 void print_step(const char *op, int left, int right) {
     for(int i=0;i<depth;i++) printf("  "); // indentation
     printf("\033[1;36m%d) %d %s %d = %d\033[0m\n", step_count++, left, op, right,
@@ -41,7 +44,7 @@ input:
 
 line:
     expr END {
-        printf("\n\033[1;32mRésultat final: %d\033[0m\n\n", $1);
+        printf("\n\033[1;32mResultat final: %d\033[0m\n\n", $1);
         result = $1;
         // save to history
         history[history_index % MAX_HISTORY] = $1;
@@ -105,7 +108,7 @@ void print_centered(const char *text, int width, const char *color) {
 // Print history
 void print_history() {
     if(history_index == 0) return;
-    printf("\033[1;35mDerniers résultats: ");
+    printf("\033[1;35mDerniers resultats: ");
     int count = history_index < MAX_HISTORY ? history_index : MAX_HISTORY;
     for(int i=0;i<count;i++) {
         int idx = (history_index - count + i) % MAX_HISTORY;
@@ -120,10 +123,10 @@ int main() {
     int term_width = 80;
 
     print_centered("=================================", term_width, "\033[1;34m");
-    print_centered("CALCULATRICE CLI - PRO", term_width, "\033[1;34m");
+    print_centered("CALCULATRICE TRADUCTEUR", term_width, "\033[1;34m");
     print_centered("=================================", term_width, "\033[1;34m");
     printf("\n");
-    print_centered("Tapez une expression arithmétique", term_width, "\033[1;37m");
+    print_centered("Tapez une expression arithmetique", term_width, "\033[1;37m");
     print_centered("Exemple: (5 + 3) * 2", term_width, "\033[1;37m");
     print_centered("Tapez 'quit' ou 'exit' pour quitter", term_width, "\033[1;37m");
     printf("\n");
