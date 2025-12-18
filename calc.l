@@ -1,24 +1,18 @@
 %{
-    #include "calc.tab.h"   // Bison-generated header with token defs and yylval
-    #include <stdio.h>
-    #include <stdlib.h>
+#include "calc.tab.h"
+#include <stdio.h>
+#include <stdlib.h>
 %}
 
-/* ---- Lexer rules ---- */
 %%
-[0-9]+          {               /* integer literal */
-                    yylval.num = atoi(yytext);
-                    return NUMBER;
-                }
-"+"             { return PLUS; }        /* plus operator */
-"-"             { return MINUS; }       /* minus operator */
-"*"             { return MULT; }        /* multiply operator */
-"/"             { return DIV; }         /* divide operator */
-"("             { return LEFTPAREN; }   /* left parenthesis */
-")"             { return RIGHTPAREN; }  /* right parenthesis */
-\n              { return END; }         /* end of line (newline) */
+[0-9]+          { yylval.num = atoi(yytext); printf("\033[1;33m[NUMBER:%s]\033[0m ", yytext); return NUMBER; }
+"+"             { printf("\033[1;33m[PLUS]\033[0m "); return PLUS; }
+"-"             { printf("\033[1;33m[MINUS]\033[0m "); return MINUS; }
+"*"             { printf("\033[1;33m[MULT]\033[0m "); return MULT; }
+"/"             { printf("\033[1;33m[DIV]\033[0m "); return DIV; }
+"("             { printf("\033[1;33m[LEFTPAREN]\033[0m "); return LEFTPAREN; }
+")"             { printf("\033[1;33m[RIGHTPAREN]\033[0m "); return RIGHTPAREN; }
+\n              { return END; }
 [ \t]+          { /* ignore whitespace */ }
-.               {                       /* any other char is invalid */
-                    printf("Caractere invalide: %s\n", yytext);
-                }
+.               { printf("\033[1;31mCaractère invalide: %s\033[0m\n", yytext); }
 %%
