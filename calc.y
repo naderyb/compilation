@@ -21,10 +21,10 @@ int history_index = 0; // index for history tracking
 void print_step(const char *op, int left, int right) {
     for(int i=0;i<depth;i++) printf("  "); // indentation
     printf("\033[1;36m%d) %d %s %d = %d\033[0m\n", step_count++, left, op, right,
-           (strcmp(op,"+") == 0) ? left+right :
-           (strcmp(op,"-") == 0) ? left-right :
-           (strcmp(op,"*") == 0) ? left*right :
-           (strcmp(op,"/") == 0) ? left/right : 0 );
+            (strcmp(op,"+") == 0) ? left+right :
+            (strcmp(op,"-") == 0) ? left-right :
+            (strcmp(op,"*") == 0) ? left*right :
+            (strcmp(op,"/") == 0) ? left/right : 0 );
 }
 %}
 
